@@ -152,7 +152,9 @@ ifdef NETCDF_C_PATH
   ifndef LIB_NETCDF_FORTRAN
     LIB_NETCDF_FORTRAN:=$(NETCDF_C_PATH)/lib
   endif
- else ifdef NETCDF_FORTRAN_PATH
+  FFLAGS += -I$(INC_NETCDF_FORTRAN)
+  CFLAGS += -I$(INC_NETCDF_C)
+else ifdef NETCDF_FORTRAN_PATH
   $(error "NETCDF_FORTRAN_PATH specified without NETCDF_C_PATH")
  else ifdef NETCDF_PATH
   NETCDF_SEPARATE:=false
@@ -162,6 +164,8 @@ ifdef NETCDF_C_PATH
   ifndef LIB_NETCDF
     LIB_NETCDF:=$(NETCDF_PATH)/lib
   endif
+  FFLAGS += -I$(INC_NETCDF)
+  CFLAGS += -I$(INC_NETCDF)
 else
   # No Netcdf is an error unless target is clean or DEP
   ifneq ($(MAKECMDGOALS), db_files)
@@ -172,8 +176,6 @@ else
   endif
   endif
 endif
-FFLAGS += -I$(INC_NETCDF)
-CFLAGS += -I$(INC_NETCDF)
 
 # Set HAVE_SLASHPROC on LINUX systems which are not bluegene or Darwin (OSx)
 
